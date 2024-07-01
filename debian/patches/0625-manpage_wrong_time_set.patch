@@ -1,0 +1,24 @@
+Description: Fix description of "sel time set"
+Author: Jörg Frings-Fürst <debian@jff.email>
+Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1058711
+Forwarded: https://codeberg.org/IPMITool/ipmitool/issues/18
+Last-Update: 2023-12-17
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+Index: trunk/doc/ipmitool.1.in
+===================================================================
+--- trunk.orig/doc/ipmitool.1.in
++++ trunk/doc/ipmitool.1.in
+@@ -3077,9 +3077,9 @@ Displays the SEL clock's current time.
+ .br 
+ 
+ Sets the SEL clock.  Future SEL entries will use the time
+-set by this command.  <\fBtime string\fR> is of the
+-form "MM/DD/YYYY HH:MM:SS".  Note that hours are in 24\-hour
+-form.  It is recommended that the SEL be cleared before
++set by this command.  <\fBtime string\fR> is using the
++locale's date / time format. It is
++recommended that the SEL be cleared before
+ setting the time.
+ .RE
+ .RE

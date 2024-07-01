@@ -1,0 +1,8 @@
+0105-sensor_reading.patch
+0620-manpage_typo.patch
+0700-build.patch
+0100-fix_buf_overflow.patch
+0010-utf8.patch
+0110-unpdate_IANA_URL.patch
+0115-hurd_PATH_MAX.patch
+0625-manpage_wrong_time_set.patch
