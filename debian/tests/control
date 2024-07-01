@@ -1,0 +1,16 @@
+Tests: smoke
+Depends: ipmitool
+Restrictions: allow-stderr, superficial
+
+Tests: qemuvbmc
+Depends: ipmitool,
+ python3-libvirt,
+ virtualbmc,
+ bridge-utils,
+ libvirt-clients,
+ libvirt-daemon-system,
+ libxml2-utils,
+ linux-image-amd64 [amd64] | linux-generic [amd64],
+ qemu-kvm,
+ qemu-system,
+Restrictions: allow-stderr, isolation-container, skippable, skip-not-installable, needs-root
