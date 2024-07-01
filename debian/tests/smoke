@@ -1,0 +1,8 @@
+#!/bin/sh
+set -ex
+
+# dep8 smoke test for ipmitool
+# Test that the ipmitool binary exists and can get the version and help page
+
+ipmitool -h
+ipmitool -V

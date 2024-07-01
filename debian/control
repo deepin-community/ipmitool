@@ -1,15 +1,42 @@
-Source: template-repository
-Section: unknown
+Source: ipmitool
+Section: utils
 Priority: optional
-Maintainer: Tsic404 <liuheng@deepin.org>
-Build-Depends: debhelper (>= 11)
-Standards-Version: 4.1.3
-Homepage: https://github.com/deepin-community/template-repository
-#Vcs-Browser: https://salsa.debian.org/debian/deepin-community-template-repository
-#Vcs-Git: https://salsa.debian.org/debian/deepin-community-template-repository.git
+Maintainer: Jörg Frings-Fürst <debian@jff.email>
+Build-Depends:
+ debhelper-compat (= 13),
+ init-system-helpers (>= 1.58),
+ libncurses-dev,
+ libfreeipmi-dev [!hurd-i386],
+ libreadline-dev,
+ libssl-dev
+Standards-Version: 4.6.2.0
+Rules-Requires-Root: no
+Vcs-Git: git://git.jff.email/ipmitool.git
+Vcs-Browser: https://git.jff.email/cgit/ipmitool.git
+Homepage: https://codeberg.org/IPMITool/ipmitool
 
-Package: template-repository
+Package: ipmitool
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends}
+Pre-Depends:
+ ${misc:Pre-Depends}
+Recommends: openipmi
+Description: utility for IPMI control with kernel driver or LAN interface (daemon)
+ A utility for managing and configuring devices that support the
+ Intelligent Platform Management Interface.  IPMI is an open standard
+ for monitoring, logging, recovery, inventory, and control of hardware
+ that is implemented independent of the main CPU, BIOS, and OS.  The
+ service processor (or Baseboard Management Controller, BMC) is the
+ brain behind platform management and its primary purpose is to handle
+ the autonomous sensor monitoring and event logging features.
+ .
+ The ipmitool program provides a simple command-line interface to this
+ BMC.  It features the ability to read the sensor data repository
+ (SDR) and print sensor values, display the contents of the System
+ Event Log (SEL), print Field Replaceable Unit (FRU) inventory
+ information, read and set LAN configuration parameters, and perform
+ remote chassis power control.
+ .
+ This package contains the daemon.

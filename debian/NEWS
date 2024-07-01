@@ -1,0 +1,7 @@
+ipmitool (1.8.19-4) unstable; urgency=medium
+
+  The link to download the IANA PEN registry has changed to:
+
+  https://www.iana.org/assignments/enterprise-numbers.txt
+
+ -- Jörg Frings-Fürst <debian@jff.email>  Fri, 30 Dec 2022 10:07:51 +0100
