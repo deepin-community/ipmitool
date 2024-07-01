@@ -1,0 +1,55 @@
+#!/bin/sh
+
+set -e
+
+# dep8 qemu + virtualbmc test for ipmitool
+# Start by defining and creating a qemu vm, then attach vbmc to it.
+# Afterward test ipmitool commands on the vm.
+
+XML=debian/tests/vbmc-qemu-vm-session.xml
+DOMAIN=bmctest
+
+# Clean vm setup on exit
+cleanup()
+{
+    if [ -z "$CLEANED_UP" ]; then
+        virsh destroy ${DOMAIN} > /dev/null 2>&1 || true
+        virsh undefine ${DOMAIN} > /dev/null 2>&1 || true
+        CLEANED_UP=1
+    fi
+}
+
+trap cleanup EXIT
+
+# Confirm the test is running on amd64
+if [ $(uname -m) != "x86_64" ]; then
+    echo "Not on x86_64...skipping"
+    exit 77
+fi
+
+# Confirm kernel and initrd are available for running vm
+if [ ! -f /boot/vmlinuz ] || [ ! -f /boot/initrd.img ]; then
+    echo "Kernel or initrd not found...fail".
+    exit 1
+fi
+
+# We don't want libvirt using xattrs
+# https://discuss.linuxcontainers.org/t/cant-run-libvirt-qemu-kvm-in-an-unprivileged-domain-anymore-unable-to-set-xattr/9466/3
+sed -r -i 's,^(#|[[:blank:]])*(remember_owner).*$,\2 = 0,' /etc/libvirt/qemu.conf
+systemctl restart libvirtd.service
+
+# Setup vm
+virt-xml-validate ${XML}
+virsh define ${XML}
+virsh start ${DOMAIN}
+
+# Attach virtualbmc to vm
+vbmc add ${DOMAIN} --port 6230 --username testuser --password pass
+vbmc start ${DOMAIN}
+
+# Test ipmitool
+ipmitool -I lanplus -U testuser -P pass -H 127.0.0.1 -p 6230 power up
+ipmitool -I lanplus -U testuser -P pass -H 127.0.0.1 -p 6230 power status
+ipmitool -I lanplus -U testuser -P pass -H 127.0.0.1 -p 6230 chassis status
+ipmitool -I lanplus -U testuser -P pass -H 127.0.0.1 -p 6230 power down
+ipmitool -I lanplus -U testuser -P pass -H 127.0.0.1 -p 6230 power status

@@ -1,0 +1,21 @@
+Description: Add missing PATH_MAX for hurd-i386
+Author: Jörg Frings-Fürst <debian@jff.email>
+Forwarded: not-needed
+Last-Update: 2022-12-26
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+Index: trunk/include/ipmitool/ipmi_strings.h
+===================================================================
+--- trunk.orig/include/ipmitool/ipmi_strings.h
++++ trunk/include/ipmitool/ipmi_strings.h
+@@ -36,6 +36,10 @@
+ 
+ #define CC_STRING(cc) val2str(cc, completion_code_vals)
+ 
++#ifndef PATH_MAX
++    #define PATH_MAX 1024
++#endif
++
+ extern const struct valstr completion_code_vals[];
+ extern const struct valstr entity_id_vals[];
+ extern const struct valstr entity_device_type_vals[];

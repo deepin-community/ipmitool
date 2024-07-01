@@ -1,0 +1,72 @@
+Description: Fix IANA url
+Author: <name and email of author, optional>
+Origin: upstream, https://github.com/siderolabs/pkgs/pull/634/commits/5a39853823255f3715857fb4907bca13573e76d0
+Bug: https://github.com/ipmitool/ipmitool/issues/377
+Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1023312 
+Forwarded: not-needed
+Applied-Upstream: https://github.com/siderolabs/pkgs/pull/634/commits/5a39853823255f3715857fb4907bca13573e76d0
+Last-Update: 2022-12-25
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+Index: trunk/Makefile.am
+===================================================================
+--- trunk.orig/Makefile.am
++++ trunk/Makefile.am
+@@ -41,7 +41,7 @@ MAINTAINERCLEANFILES = Makefile.in acloc
+ 	$(distdir).tar.gz $(distdir).tar.bz2
+ 
+ SUBDIRS = lib src include doc contrib control
+-IANA_PEN = http://www.iana.org/assignments/enterprise-numbers
++IANA_PEN = http://www.iana.org/assignments/enterprise-numbers.txt
+ 
+ dist-hook:
+ 	cp control/ipmitool.spec $(distdir)
+Index: trunk/lib/ipmi_strings.c
+===================================================================
+--- trunk.orig/lib/ipmi_strings.c
++++ trunk/lib/ipmi_strings.c
+@@ -1489,7 +1489,7 @@ size_t count_bytes(const char *s, unsign
+  * That is, IANA PEN at position 0, enterprise name at position 2.
+  */
+ #define IANA_NAME_OFFSET 2
+-#define IANA_PEN_REGISTRY "enterprise-numbers"
++#define IANA_PEN_REGISTRY "enterprise-numbers.txt"
+ static
+ int oem_info_list_load(oem_valstr_list_t **list)
+ {
+Index: trunk/doc/ipmitool.1.in
+===================================================================
+--- trunk.orig/doc/ipmitool.1.in
++++ trunk/doc/ipmitool.1.in
+@@ -3830,10 +3830,10 @@ Chassis Power Control: Up/On
+ 
+ .SH FILES
+ .TP
+-.B @IANADIR@/enterprise-numbers
+-system IANA PEN registry taken from http://www.iana.org/assignments/enterprise-numbers
++.B @IANADIR@/enterprise-numbers.txt
++system IANA PEN registry taken from https://www.iana.org/assignments/enterprise-numbers.txt
+ .TP
+-.B ~/@IANAUSERDIR@/enterprise-numbers
++.B ~/@IANAUSERDIR@/enterprise-numbers.txt
+ user's override for the system IANA PEN registry, this file if it exists is loaded instead
+ of the system registry (see above).
+ 
+Index: trunk/doc/ipmievd.8.in
+===================================================================
+--- trunk.orig/doc/ipmievd.8.in
++++ trunk/doc/ipmievd.8.in
+@@ -220,10 +220,10 @@ Waiting for Events...
+ 
+ .SH FILES
+ .TP
+-.B @IANADIR@/enterprise-numbers
+-system IANA PEN registry taken from http://www.iana.org/assignments/enterprise-numbers
++.B @IANADIR@/enterprise-numbers.txt
++system IANA PEN registry taken from https://www.iana.org/assignments/enterprise-numbers.txt
+ .TP
+-.B ~/@IANAUSERDIR@/enterprise-numbers
++.B ~/@IANAUSERDIR@/enterprise-numbers.txt
+ user's override for the system IANA PEN registry, this file if it exists is loaded instead
+ of the system registry (see above).
+ 
